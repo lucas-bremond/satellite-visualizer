@@ -1,0 +1,133 @@
+import { PanelPlugin } from '@grafana/data';
+import { SimpleOptions, AssetMode } from './types';
+import { SatelliteVisualizer } from './components/SatelliteVisualizer';
+
+export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPanelOptions((builder) => {
+  return builder
+    .addRadio({
+      path: 'assetMode',
+      name: 'Display mode',
+      description: 'The display mode of the Asset.',
+      settings: {
+        options: [
+          { value: AssetMode.point, label: 'Point' },
+          { value: AssetMode.model, label: 'Model' },
+        ],
+      },
+      defaultValue: AssetMode.model,
+    })
+
+    .addNumberInput({
+      path: 'pointSize',
+      name: 'Point size',
+      description: 'The size (in pixels) of the point.',
+      defaultValue: 30,
+      showIf: (config) => config.assetMode === AssetMode.point,
+    })
+    .addColorPicker({
+      path: 'pointColor',
+      name: 'Point Color',
+      description: 'The color of the point.',
+      defaultValue: 'red',
+      showIf: (config) => config.assetMode === AssetMode.point,
+    })
+
+    .addNumberInput({
+      path: 'modelScale',
+      name: 'Scale',
+      description: 'The linear scale of the model.',
+      defaultValue: 1.0,
+      showIf: (config) => config.assetMode === AssetMode.model,
+    })
+    .addNumberInput({
+      path: 'modelMinimumPixelSize',
+      name: 'Minimum pixel size',
+      description:
+        'The approximate minimum pixel size of the model regardless of zoom. When 0.0, no minimum size is enforced.',
+      defaultValue: 128,
+      showIf: (config) => config.assetMode === AssetMode.model,
+    })
+    .addNumberInput({
+      path: 'modelMaximumScale',
+      name: 'Maximum scale',
+      description: 'The maximum scale size of the model (minimum pizel size upper limit).',
+      defaultValue: 20000,
+      showIf: (config) => config.assetMode === AssetMode.model,
+    })
+    .addNumberInput({
+      path: 'modelAssetId',
+      name: 'Asset ID',
+      description: 'The model Cesium ion asset id.',
+      defaultValue: 0,
+      showIf: (config) => config.assetMode === AssetMode.model,
+    })
+    .addTextInput({
+      path: 'modelAssetUri',
+      name: 'Asset URI',
+      description: 'The URI of the glTF asset.',
+      defaultValue:
+        'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb',
+      showIf: (config) => config.assetMode === AssetMode.model,
+    })
+
+    .addBooleanSwitch({
+      path: 'trajectoryShow',
+      name: 'Show trajectory',
+      description: 'Show satellite trajectory.',
+      defaultValue: true,
+    })
+    .addNumberInput({
+      path: 'trajectoryWidth',
+      name: 'Trajectory width',
+      description: 'The width (in pixels) of the trajecotry.',
+      defaultValue: 1,
+      showIf: (config) => config.trajectoryShow,
+    })
+    .addColorPicker({
+      path: 'trajectoryColor',
+      name: 'Trajectory color',
+      description: 'The color of the trajectory.',
+      defaultValue: 'gray',
+      showIf: (config) => config.trajectoryShow,
+    })
+    .addNumberInput({
+      path: 'trajectoryDashLength',
+      name: 'Trajectory dash length',
+      description: 'The dash length (in pixels) of the trajectory.',
+      defaultValue: 16.0,
+      showIf: (config) => config.trajectoryShow,
+    })
+
+    .addTextInput({
+      path: 'accessToken',
+      name: 'Access token',
+      description: 'A Cesium ion access token.',
+      defaultValue: '',
+    })
+
+    .addBooleanSwitch({
+      path: 'showCredits',
+      name: 'Show credits',
+      description: 'Show Cesium credits.',
+      defaultValue: true,
+    })
+
+    .addBooleanSwitch({
+      path: 'baseLayerPicker',
+      name: 'Show base layer picker',
+      description: 'If set to true, a Base Layer Picker widget will be created.',
+      defaultValue: false,
+    })
+    .addBooleanSwitch({
+      path: 'sceneModePicker',
+      name: 'Show scene mode picker',
+      description: 'If set to true, a Scene Mode Picker widget will be created.',
+      defaultValue: false,
+    })
+    .addBooleanSwitch({
+      path: 'projectionPicker',
+      name: 'Show projection picker',
+      description: 'If set to true, a Projection Picker widget will be created.',
+      defaultValue: false,
+    });
+});

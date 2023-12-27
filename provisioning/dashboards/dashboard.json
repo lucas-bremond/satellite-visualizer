@@ -1,0 +1,390 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 5,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${database}"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 1,
+      "options": {
+        "accessToken": "",
+        "baseLayerPicker": false,
+        "modelAssetId": 0,
+        "modelAssetUri": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb",
+        "modelMaximumScale": 20000,
+        "modelMinimumPixelSize": 128,
+        "modelScale": 1,
+        "pointColor": "red",
+        "pointSize": 30,
+        "projectionPicker": false,
+        "sceneModePicker": false,
+        "seriesCountSize": "sm",
+        "showCredits": false,
+        "trajectoryColor": "gray",
+        "trajectoryDashLength": 16,
+        "trajectoryShow": true,
+        "trajectoryWidth": 1
+      },
+      "targets": [
+        {
+          "alias": "longitude",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${database}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["none"],
+              "type": "fill"
+            }
+          ],
+          "measurement": "${satellite}",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "longitude",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["longitude"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "latitude",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${database}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["none"],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "${satellite}",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "latitude",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["latitude"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "altitude",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${database}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["none"],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "${satellite}",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "altitude",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["height"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "q_B_ECI_x",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${database}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["none"],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "${satellite}",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "q_B_ECI_x",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["q_b_eci_a"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "q_B_ECI_y",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${database}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["none"],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "${satellite}",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "q_B_ECI_y",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["q_b_eci_b"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "q_B_ECI_z",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${database}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["none"],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "${satellite}",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "q_B_ECI_z",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["q_b_eci_c"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "q_B_ECI_s",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${database}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["none"],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "${satellite}",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "q_B_ECI_s",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["q_b_eci_s"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Satellite Visualizer",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "Time",
+            "mode": "inner"
+          }
+        }
+      ],
+      "type": "lucasbremond-satellitevisualizer-panel"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Satellite-2",
+          "value": "satellite_2"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Satellite",
+        "multi": false,
+        "name": "satellite",
+        "options": [
+          {
+            "selected": false,
+            "text": "Satellite-1",
+            "value": "satellite_1"
+          },
+          {
+            "selected": true,
+            "text": "Satellite-2",
+            "value": "satellite_2"
+          }
+        ],
+        "query": "Satellite-1 : satellite_1, Satellite-2 : satellite_2",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Satellite-2",
+          "value": "Satellite-2"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Database",
+        "multi": false,
+        "name": "database",
+        "options": [],
+        "query": "influxdb",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-12-29T07:49:18.228Z",
+    "to": "2023-12-29T07:58:00.228Z"
+  },
+  "timepicker": {
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"]
+  },
+  "timezone": "utc",
+  "title": "Satellite Visualizer",
+  "uid": "cd64fbc4-c5a1-4943-b0c0-5f1c202a22fa",
+  "version": 8,
+  "weekStart": ""
+}

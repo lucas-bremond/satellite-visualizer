@@ -13,6 +13,17 @@ A satellite visualization panel plugin for Grafana based on [CesiumJS](https://c
 
 This plugin needs a data series with 8 columns:
 
-- Column 1: Time
-- Column 2-4: Position vector in ECEF (x, y, z)
-- Column 5-8: Orientation quaternion in ECI (x, y, z, s)
+| Column # | Description                                             |
+| -------- | ------------------------------------------------------- |
+| 1        | Time                                                    |
+| 2        | Longitude (`deg`)                                       |
+| 3        | Latitude (`deg`)                                        |
+| 4        | Altitude (`m`)                                          |
+| 5-8      | Orientation in inertial frame (`x, y, z, s` quaternion) |
+
+![data.png](./src/img/data.png)
+
+## References
+
+- [CesiumJS][https://cesium.com/platform/cesiumjs/]
+- [Resium][https://resium.reearth.io/]

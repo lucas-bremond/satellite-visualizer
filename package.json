@@ -1,6 +1,6 @@
 {
   "name": "satellite-visualizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "3D satellite visualization panel.",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",

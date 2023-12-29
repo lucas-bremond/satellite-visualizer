@@ -25,5 +25,5 @@ This plugin needs a data series with 8 columns:
 
 ## References
 
-- [CesiumJS][https://cesium.com/platform/cesiumjs/]
-- [Resium][https://resium.reearth.io/]
+- [CesiumJS](https://cesium.com/platform/cesiumjs/)
+- [Resium](https://resium.reearth.io/)

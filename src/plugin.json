@@ -10,11 +10,16 @@
       "name": "Lucas Brémond"
     },
     "logos": {
-      "small": "img/logo.svg",
-      "large": "img/logo.svg"
+      "small": "img/logo.png",
+      "large": "img/logo.png"
     },
     "links": [],
-    "screenshots": [],
+    "screenshots": [
+      {
+        "name": "screenshot",
+        "path": "img/screenshot.png"
+      }
+    ],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },

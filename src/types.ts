@@ -19,6 +19,8 @@ export interface SimpleOptions {
   trajectoryColor: string;
   trajectoryDashLength: number;
 
+  subscribeToDataHoverEvent: boolean;
+
   accessToken: string;
 
   showCredits: boolean;

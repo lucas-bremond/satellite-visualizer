@@ -164,6 +164,10 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
   useEffect(() => setViewerKey((prevKey) => prevKey + 1), [options]);
 
   useEffect(() => {
+    if (!options.subscribeToDataHoverEvent) {
+      return;
+    }
+
     const dataHoverSubscriber = eventBus.getStream(DataHoverEvent).subscribe((event) => {
       if (event?.payload?.point?.time) {
         setTimestamp(JulianDate.fromDate(new Date(event.payload.point.time)));
@@ -180,7 +184,7 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
       dataHoverSubscriber.unsubscribe();
       graphHoverSubscriber.unsubscribe();
     };
-  }, [eventBus]);
+  }, [eventBus, options.subscribeToDataHoverEvent]);
 
   return (
     <div

@@ -113,21 +113,27 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
     })
 
     .addBooleanSwitch({
+      path: 'subscribeToDataHoverEvent',
+      name: 'Subscribe to data hover event',
+      description: 'Hover on another panel to set the current time (required shared crosshair).',
+      defaultValue: true,
+    })
+    .addBooleanSwitch({
       path: 'baseLayerPicker',
       name: 'Show base layer picker',
-      description: 'If set to true, a Base Layer Picker widget will be created.',
+      description: 'If enabled, a Base Layer Picker widget will be created.',
       defaultValue: false,
     })
     .addBooleanSwitch({
       path: 'sceneModePicker',
       name: 'Show scene mode picker',
-      description: 'If set to true, a Scene Mode Picker widget will be created.',
+      description: 'If enabled, a Scene Mode Picker widget will be created.',
       defaultValue: false,
     })
     .addBooleanSwitch({
       path: 'projectionPicker',
       name: 'Show projection picker',
-      description: 'If set to true, a Projection Picker widget will be created.',
+      description: 'If enabled, a Projection Picker widget will be created.',
       defaultValue: false,
     });
 });

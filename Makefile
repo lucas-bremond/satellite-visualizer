@@ -12,25 +12,33 @@ dev-image: ## Build development image
 		--file="$(CURDIR)/development/Dockerfile" \
 		--build-arg="USER_UID=$(shell id -u)" \
 		--build-arg="USER_GID=$(shell id -g)" \
-		--tag=$(image_url) \
-		--tag=$(image_url):$(project_version) \
+		--tag=$(image_url)-dev \
+		--tag=$(image_url)-dev:$(project_version) \
 		.
 .PHONY: dev-image
 
-dev: dev-image ## Start development environment
+dev: dev-image up ## Start development environment
 	docker run \
-		--name=$(project_name) \
+		--name=$(project_name)-dev \
 		-it \
 		--rm \
 		--volume="$(CURDIR):/workspace:delegated" \
 		--workdir="/workspace" \
-		$(image_url) \
+		$(image_url)-dev \
 		zsh
 .PHONY: dev
 
-serve:
-	docker-compose up --build
-.PHONY: serve
+up: ## Start Grafana endpoint
+	docker-compose up --build --detach
+.PHONY: up
+
+down: ## Stop Grafana endpoint
+	docker-compose down
+.PHONY: down
+
+logs: ## Show Grafana logs
+	docker-compose logs --follow
+.PHONY: logs
 
 # General //////////////////////////////////////////////////////////////////////////////////////////////////////////// #
 

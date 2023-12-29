@@ -23,6 +23,16 @@ This plugin needs a data series with 8 columns:
 
 ![data.png](./src/img/data.png)
 
+## Development
+
+To start the development environment:
+
+```shell
+make dev
+```
+
+Access the started Grafana instance at <http://localhost:3000>.
+
 ## References
 
 - [CesiumJS](https://cesium.com/platform/cesiumjs/)

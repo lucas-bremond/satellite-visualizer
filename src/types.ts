@@ -19,6 +19,10 @@ export interface SimpleOptions {
   trajectoryColor: string;
   trajectoryDashLength: number;
 
+  locations: Location[];
+  locationPointSize: number;
+  locationPointColor: string;
+
   subscribeToDataHoverEvent: boolean;
 
   accessToken: string;
@@ -29,4 +33,10 @@ export interface SimpleOptions {
 export enum AssetMode {
   point = 'point',
   model = 'model',
+}
+
+export interface Location {
+  name: string;
+  longitude: number;
+  latitude: number;
 }

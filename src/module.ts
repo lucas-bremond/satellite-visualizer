@@ -2,6 +2,8 @@ import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions, AssetMode } from './types';
 import { SatelliteVisualizer } from './components/SatelliteVisualizer';
 
+import { LocationEditor } from './LocationEditor';
+
 export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPanelOptions((builder) => {
   return builder
     .addRadio({
@@ -26,7 +28,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
     })
     .addColorPicker({
       path: 'pointColor',
-      name: 'Point Color',
+      name: 'Point color',
       description: 'The color of the point.',
       defaultValue: 'red',
       showIf: (config) => config.assetMode === AssetMode.point,
@@ -96,6 +98,29 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
       description: 'The dash length (in pixels) of the trajectory.',
       defaultValue: 16.0,
       showIf: (config) => config.trajectoryShow,
+    })
+
+    .addCustomEditor({
+      id: 'locations',
+      path: 'locations',
+      name: 'Locations',
+      description: 'A list of locations to display.',
+      editor: LocationEditor,
+      defaultValue: [],
+    })
+    .addNumberInput({
+      path: 'locationPointSize',
+      name: 'Location point size',
+      description: 'The size (in pixels) of the Location point.',
+      defaultValue: 10,
+      showIf: (config) => config.locations.length > 0,
+    })
+    .addColorPicker({
+      path: 'locationPointColor',
+      name: 'Location point color',
+      description: 'The color of the Location point.',
+      defaultValue: 'white',
+      showIf: (config) => config.locations.length > 0,
     })
 
     .addTextInput({

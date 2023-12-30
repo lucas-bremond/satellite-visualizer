@@ -4,7 +4,7 @@ import { AssetMode, SimpleOptions } from 'types';
 import { css, cx } from '@emotion/css';
 import { useStyles2 } from '@grafana/ui';
 
-import { Viewer, Clock, Entity, PointGraphics, ModelGraphics, PathGraphics } from 'resium';
+import { Viewer, Clock, Entity, PointGraphics, ModelGraphics, PathGraphics, LabelGraphics } from 'resium';
 import {
   Ion,
   JulianDate,
@@ -18,6 +18,7 @@ import {
   Color,
   PolylineDashMaterialProperty,
   IonResource,
+  Cartesian2,
 } from 'cesium';
 
 import 'cesium/Build/Cesium/Widgets/widgets.css';
@@ -243,6 +244,19 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
             )}
           </Entity>
         )}
+        {options.locations.map((location, index) => (
+          <Entity
+            name={location.name}
+            position={Cartesian3.fromDegrees(location.longitude, location.latitude, 0.0)}
+            key={index}
+          >
+            <PointGraphics
+              pixelSize={options.locationPointSize}
+              color={Color.fromCssColorString(options.locationPointColor)}
+            />
+            <LabelGraphics text={location.name} pixelOffset={new Cartesian2(30.0, 30.0)} />
+          </Entity>
+        ))}
       </Viewer>
 
       <div

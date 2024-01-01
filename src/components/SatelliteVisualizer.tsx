@@ -86,8 +86,15 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
     if (data.series.length === 1) {
       const dataFrame = data.series[0];
 
-      const startTimestamp: number | null = dataFrame.fields[0].values.at(0) ?? null;
-      const endTimestamp: number | null = dataFrame.fields[0].values.at(-1) ?? null;
+      let timeFieldValues = dataFrame.fields[0].values;
+
+      // https://grafana.com/developers/plugin-tools/migration-guides/update-from-grafana-versions/migrate-9_x-to-10_x#data-frame-field-values-are-now-just-arrays
+      if (typeof timeFieldValues.toArray === 'function') {
+        timeFieldValues = timeFieldValues.toArray();
+      }
+
+      const startTimestamp: number | null = timeFieldValues[0] ?? null;
+      const endTimestamp: number | null = timeFieldValues.at(-1) ?? null;
 
       if (endTimestamp !== null) {
         setTimestamp(JulianDate.fromDate(new Date(endTimestamp)));

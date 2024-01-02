@@ -11,3 +11,5 @@ RUN getent group ${USER_GID} || groupmod --gid ${USER_GID} ${USERNAME} \
  && chown -R ${USER_UID}:${USER_GID} /home/${USERNAME}
 
 USER ${USERNAME}
+
+RUN npm install --global prettier

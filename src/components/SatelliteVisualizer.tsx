@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PanelProps, DataHoverEvent, LegacyGraphHoverEvent } from '@grafana/data';
 import { AssetMode, SimpleOptions } from 'types';
+import { coalesceToArray } from 'utilities';
 import { css, cx } from '@emotion/css';
 import { useStyles2 } from '@grafana/ui';
 
@@ -86,12 +87,7 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
     if (data.series.length === 1) {
       const dataFrame = data.series[0];
 
-      let timeFieldValues = dataFrame.fields[0].values;
-
-      // https://grafana.com/developers/plugin-tools/migration-guides/update-from-grafana-versions/migrate-9_x-to-10_x#data-frame-field-values-are-now-just-arrays
-      if (typeof timeFieldValues.toArray === 'function') {
-        timeFieldValues = timeFieldValues.toArray();
-      }
+      let timeFieldValues = coalesceToArray(dataFrame.fields[0].values);
 
       const startTimestamp: number | null = timeFieldValues[0] ?? null;
       const endTimestamp: number | null = timeFieldValues.at(-1) ?? null;
@@ -119,19 +115,19 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
       const orientationProperty = new SampledProperty(Quaternion);
 
       for (let i = 0; i < dataFrame.fields[1].values.length; i++) {
-        const time = JulianDate.fromDate(new Date(dataFrame.fields[0].values[i]));
+        const time = JulianDate.fromDate(new Date(coalesceToArray(dataFrame.fields[0].values)[i]));
 
         const x_ECEF = Cartesian3.fromDegrees(
-          dataFrame.fields[1].values[i],
-          dataFrame.fields[2].values[i],
-          dataFrame.fields[3].values[i]
+          coalesceToArray(dataFrame.fields[1].values)[i],
+          coalesceToArray(dataFrame.fields[2].values)[i],
+          coalesceToArray(dataFrame.fields[3].values)[i]
         );
 
         const q_B_ECI = new Quaternion(
-          dataFrame.fields[4].values[i],
-          dataFrame.fields[5].values[i],
-          dataFrame.fields[6].values[i],
-          dataFrame.fields[7].values[i]
+          coalesceToArray(dataFrame.fields[4].values)[i],
+          coalesceToArray(dataFrame.fields[5].values)[i],
+          coalesceToArray(dataFrame.fields[6].values)[i],
+          coalesceToArray(dataFrame.fields[7].values)[i]
         );
 
         positionProperty.addSample(time, x_ECEF);

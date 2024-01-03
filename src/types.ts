@@ -1,8 +1,4 @@
 export interface SimpleOptions {
-  baseLayerPicker: boolean;
-  sceneModePicker: boolean;
-  projectionPicker: boolean;
-
   assetMode: AssetMode;
 
   pointSize: number;
@@ -23,10 +19,16 @@ export interface SimpleOptions {
   locationPointSize: number;
   locationPointColor: string;
 
-  subscribeToDataHoverEvent: boolean;
-
   accessToken: string;
 
+  subscribeToDataHoverEvent: boolean;
+
+  showAnimation: boolean;
+  showTimeline: boolean;
+  showInfoBox: boolean;
+  showBaseLayerPicker: boolean;
+  showSceneModePicker: boolean;
+  showProjectionPicker: boolean;
   showCredits: boolean;
 }
 

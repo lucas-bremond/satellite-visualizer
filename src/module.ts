@@ -131,34 +131,52 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
     })
 
     .addBooleanSwitch({
-      path: 'showCredits',
-      name: 'Show credits',
-      description: 'Show Cesium credits.',
-      defaultValue: true,
-    })
-
-    .addBooleanSwitch({
       path: 'subscribeToDataHoverEvent',
       name: 'Subscribe to data hover event',
       description: 'Hover on another panel to set the current time (required shared crosshair).',
       defaultValue: true,
     })
+
     .addBooleanSwitch({
-      path: 'baseLayerPicker',
+      path: 'showAnimation',
+      name: 'Show animation',
+      description: 'If enabled, the animation controller is displayed.',
+      defaultValue: false,
+    })
+    .addBooleanSwitch({
+      path: 'showTimeline',
+      name: 'Show timeline',
+      description: 'If enabled, the timeline is displayed.',
+      defaultValue: false,
+    })
+    .addBooleanSwitch({
+      path: 'showInfoBox',
+      name: 'Show info box',
+      description: 'If enabled, the info box is displayed.',
+      defaultValue: false,
+    })
+    .addBooleanSwitch({
+      path: 'showBaseLayerPicker',
       name: 'Show base layer picker',
       description: 'If enabled, a Base Layer Picker widget will be created.',
       defaultValue: false,
     })
     .addBooleanSwitch({
-      path: 'sceneModePicker',
+      path: 'showSceneModePicker',
       name: 'Show scene mode picker',
       description: 'If enabled, a Scene Mode Picker widget will be created.',
       defaultValue: false,
     })
     .addBooleanSwitch({
-      path: 'projectionPicker',
+      path: 'showProjectionPicker',
       name: 'Show projection picker',
       description: 'If enabled, a Projection Picker widget will be created.',
       defaultValue: false,
+    })
+    .addBooleanSwitch({
+      path: 'showCredits',
+      name: 'Show credits',
+      description: 'Show Cesium credits.',
+      defaultValue: true,
     });
 });

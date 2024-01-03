@@ -78,8 +78,6 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
   }, [timeRange]);
 
   useEffect(() => {
-    // console.log(">>", data.series);
-
     if (!isLoaded) {
       return;
     }
@@ -202,18 +200,18 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
     >
       <Viewer
         full
-        animation={false}
-        baseLayerPicker={options.baseLayerPicker}
-        creditContainer="cesium-credits"
+        animation={options.showAnimation}
+        timeline={options.showTimeline}
+        infoBox={options.showInfoBox}
+        baseLayerPicker={options.showBaseLayerPicker}
+        sceneModePicker={options.showSceneModePicker}
+        projectionPicker={options.showProjectionPicker}
+        navigationHelpButton={false}
         fullscreenButton={false}
         geocoder={false}
         homeButton={false}
-        infoBox={false}
-        sceneModePicker={options.sceneModePicker}
-        timeline={false}
-        navigationHelpButton={false}
-        projectionPicker={options.projectionPicker}
         key={viewerKey}
+        creditContainer="cesium-credits"
       >
         {timestamp && <Clock currentTime={timestamp} />}
         {satelliteAvailability && satellitePosition && satelliteOrientation && (

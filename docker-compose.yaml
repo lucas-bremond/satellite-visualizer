@@ -12,7 +12,6 @@ services:
     ports:
       - 3000:3000/tcp
     volumes:
-      - grafana-storage:/var/lib/grafana
       - ./dist:/var/lib/grafana/plugins/satellite-visualizer-panel
       - ./provisioning:/etc/grafana/provisioning
 

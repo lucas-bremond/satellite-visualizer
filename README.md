@@ -25,7 +25,7 @@ This plugin needs a data series with 8 columns:
 
 ## Development
 
-To start the development environment:
+To start the development environment container:
 
 ```shell
 make dev

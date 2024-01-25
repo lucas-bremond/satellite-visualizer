@@ -248,7 +248,7 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
         {options.locations.map((location, index) => (
           <Entity
             name={location.name}
-            position={Cartesian3.fromDegrees(location.longitude, location.latitude, 0.0)}
+            position={Cartesian3.fromDegrees(location.longitude, location.latitude, location.altitude)}
             key={index}
           >
             <PointGraphics

@@ -44,7 +44,7 @@ npm version minor
 Then push the tagged commit, to let the CI handle it:
 
 ```shell
-git push --tags
+git push origin main --follow-tags
 ```
 
 ## References

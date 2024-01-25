@@ -41,6 +41,12 @@ To create a new release, run the following to bump the version in `package.json`
 npm version minor
 ```
 
+Then push the tagged commit, to let the CI handle it:
+
+```shell
+git push --tags
+```
+
 ## References
 
 - [CesiumJS](https://cesium.com/platform/cesiumjs/)

@@ -33,6 +33,14 @@ make dev
 
 Access the started Grafana instance at <http://localhost:3000>.
 
+## Release
+
+To create a new release, run the following to bump the version in `package.json`:
+
+```shell
+npm version minor
+```
+
 ## References
 
 - [CesiumJS](https://cesium.com/platform/cesiumjs/)

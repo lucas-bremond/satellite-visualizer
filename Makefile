@@ -23,6 +23,7 @@ dev: dev-image up ## Start development environment
 		-it \
 		--rm \
 		--volume="$(CURDIR):/workspace:delegated" \
+		--volume="$(HOME)/.gitconfig:/home/node/.gitconfig:ro" \
 		--workdir="/workspace" \
 		$(image_url)-dev \
 		zsh

@@ -118,22 +118,23 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
 
         const DCM_ECI_ECEF = Transforms.computeFixedToIcrfMatrix(time);
 
-        var x_ECEF: Cartesian3;
+        let x_ECEF: Cartesian3;
         if (options.coordinatesType === CoordinatesType.cartesianFixed) {
-          x_ECEF = Cartesian3(
+          x_ECEF = new Cartesian3(
             coalesceToArray(dataFrame.fields[1].values)[i],
             coalesceToArray(dataFrame.fields[2].values)[i],
             coalesceToArray(dataFrame.fields[3].values)[i]
           );
         }
         else if (options.coordinatesType === CoordinatesType.cartesianInertial) {
-          x_ECEF = Matrix3.multiply(
-            DCM_ECI_ECEF,
-            Cartesian3(
+          x_ECEF = Matrix3.multiplyByVector(
+            Matrix3.transpose(DCM_ECI_ECEF, new Matrix3()),
+            new Cartesian3(
               coalesceToArray(dataFrame.fields[1].values)[i],
               coalesceToArray(dataFrame.fields[2].values)[i],
               coalesceToArray(dataFrame.fields[3].values)[i]
-            )
+            ),
+            new Cartesian3()
           );
         }
         else {
@@ -164,7 +165,7 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
       setSatellitePosition(positionProperty);
       setSatelliteOrientation(orientationProperty);
     }
-  }, [data, isLoaded]);
+  }, [data, options, isLoaded]);
 
   useEffect(() => {
     Ion.defaultAccessToken = options.accessToken;

@@ -16,9 +16,9 @@ This plugin needs a data series with 8 columns:
 | Column # | Description                                             |
 | -------- | ------------------------------------------------------- |
 | 1        | Time                                                    |
-| 2        | Longitude (`deg`)                                       |
-| 3        | Latitude (`deg`)                                        |
-| 4        | Altitude (`m`)                                          |
+| 2        | Longitude (`deg`) / x_ECI (`m`) / x_ECEF (`m`)          |
+| 3        | Latitude (`deg`) / y_ECI (`m`) / y_ECEF (`m`)           |
+| 4        | Altitude (`m`) / z_ECI (`m`) / z_ECEF (`m`)             |
 | 5-8      | Orientation in inertial frame (`x, y, z, s` quaternion) |
 
 ## References

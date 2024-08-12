@@ -1,5 +1,6 @@
 export interface SimpleOptions {
   assetMode: AssetMode;
+  coordinatesType: CoordinatesType;
 
   pointSize: number;
   pointColor: string;
@@ -9,8 +10,6 @@ export interface SimpleOptions {
   modelMaximumScale: number;
   modelAssetId: number | null;
   modelAssetUri: string | null;
-
-  coordinatesType: CoordinatesType;
 
   trajectoryShow: boolean;
   trajectoryWidth: number;

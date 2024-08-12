@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PanelProps, DataHoverEvent, LegacyGraphHoverEvent } from '@grafana/data';
-import { AssetMode, SimpleOptions } from 'types';
+import { AssetMode, SimpleOptions, CoordinatesType } from 'types';
 import { coalesceToArray } from 'utilities';
 import { css, cx } from '@emotion/css';
 import { useStyles2 } from '@grafana/ui';
@@ -20,11 +20,12 @@ import {
   PolylineDashMaterialProperty,
   IonResource,
   Cartesian2,
+  Matrix3,
 } from 'cesium';
 
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
-interface Props extends PanelProps<SimpleOptions> {}
+interface Props extends PanelProps<SimpleOptions> { }
 
 const getStyles = () => {
   return {
@@ -115,11 +116,34 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
       for (let i = 0; i < dataFrame.fields[1].values.length; i++) {
         const time = JulianDate.fromDate(new Date(coalesceToArray(dataFrame.fields[0].values)[i]));
 
-        const x_ECEF = Cartesian3.fromDegrees(
-          coalesceToArray(dataFrame.fields[1].values)[i],
-          coalesceToArray(dataFrame.fields[2].values)[i],
-          coalesceToArray(dataFrame.fields[3].values)[i]
-        );
+        const DCM_ECI_ECEF = Transforms.computeFixedToIcrfMatrix(time);
+
+        var x_ECEF: Cartesian3;
+        if (options.coordinatesType === CoordinatesType.cartesianFixed) {
+          x_ECEF = Cartesian3(
+            coalesceToArray(dataFrame.fields[1].values)[i],
+            coalesceToArray(dataFrame.fields[2].values)[i],
+            coalesceToArray(dataFrame.fields[3].values)[i]
+          );
+        }
+        else if (options.coordinatesType === CoordinatesType.cartesianInertial) {
+          x_ECEF = Matrix3.multiply(
+            DCM_ECI_ECEF,
+            Cartesian3(
+              coalesceToArray(dataFrame.fields[1].values)[i],
+              coalesceToArray(dataFrame.fields[2].values)[i],
+              coalesceToArray(dataFrame.fields[3].values)[i]
+            )
+          );
+        }
+        else {
+          x_ECEF = Cartesian3.fromDegrees(
+            coalesceToArray(dataFrame.fields[1].values)[i],
+            coalesceToArray(dataFrame.fields[2].values)[i],
+            coalesceToArray(dataFrame.fields[3].values)[i]
+          );
+        }
+
 
         const q_B_ECI = new Quaternion(
           coalesceToArray(dataFrame.fields[4].values)[i],
@@ -130,7 +154,6 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
 
         positionProperty.addSample(time, x_ECEF);
 
-        const DCM_ECI_ECEF = Transforms.computeFixedToIcrfMatrix(time);
         const q_ECI_ECEF = Quaternion.fromRotationMatrix(DCM_ECI_ECEF);
         const q_ECEF_ECI = Quaternion.conjugate(q_ECI_ECEF, new Quaternion());
         const q_B_ECEF = Quaternion.multiply(q_ECEF_ECI, q_B_ECI, new Quaternion());

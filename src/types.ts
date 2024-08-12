@@ -10,6 +10,8 @@ export interface SimpleOptions {
   modelAssetId: number | null;
   modelAssetUri: string | null;
 
+  coordinatesType: CoordinatesType;
+
   trajectoryShow: boolean;
   trajectoryWidth: number;
   trajectoryColor: string;
@@ -35,6 +37,12 @@ export interface SimpleOptions {
 export enum AssetMode {
   point = 'point',
   model = 'model',
+}
+
+export enum CoordinatesType {
+  cartesianFixed = 'cartesianFixed',
+  cartesianInertial = 'cartesianInertial',
+  geographic = 'geographic',
 }
 
 export interface Location {

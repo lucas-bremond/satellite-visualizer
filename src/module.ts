@@ -1,5 +1,5 @@
 import { PanelPlugin } from '@grafana/data';
-import { SimpleOptions, AssetMode } from './types';
+import { SimpleOptions, AssetMode, CoordinatesType } from './types';
 import { SatelliteVisualizer } from './components/SatelliteVisualizer';
 
 import { LocationEditor } from './LocationEditor';
@@ -17,6 +17,19 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
         ],
       },
       defaultValue: AssetMode.model,
+    })
+    .addRadio({
+      path: 'coordinatesType',
+      name: 'Coordinates type',
+      description: 'The type of coordinates to use.',
+      settings: {
+        options: [
+          { value: CoordinatesType.cartesianFixed, label: 'Cartesian Fixed' },
+          { value: CoordinatesType.cartesianInertial, label: 'Cartesian Inertial' },
+          { value: CoordinatesType.geographic, label: 'Geographic' },
+        ],
+      },
+      defaultValue: CoordinatesType.geographic,
     })
 
     .addNumberInput({

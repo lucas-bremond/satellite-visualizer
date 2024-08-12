@@ -25,7 +25,7 @@ import {
 
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
-interface Props extends PanelProps<SimpleOptions> { }
+interface Props extends PanelProps<SimpleOptions> {}
 
 const getStyles = () => {
   return {

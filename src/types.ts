@@ -1,5 +1,6 @@
 export interface SimpleOptions {
   assetMode: AssetMode;
+  coordinatesType: CoordinatesType;
 
   pointSize: number;
   pointColor: string;
@@ -33,8 +34,14 @@ export interface SimpleOptions {
 }
 
 export enum AssetMode {
-  point = 'point',
-  model = 'model',
+  Point = 'Point',
+  Model = 'Model',
+}
+
+export enum CoordinatesType {
+  CartesianFixed = 'CartesianFixed',
+  CartesianInertial = 'CartesianInertial',
+  Geodetic = 'Geodetic',
 }
 
 export interface Location {

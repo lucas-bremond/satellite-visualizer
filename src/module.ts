@@ -1,5 +1,5 @@
 import { PanelPlugin } from '@grafana/data';
-import { SimpleOptions, AssetMode } from './types';
+import { SimpleOptions, AssetMode, CoordinatesType } from './types';
 import { SatelliteVisualizer } from './components/SatelliteVisualizer';
 
 import { LocationEditor } from './LocationEditor';
@@ -12,11 +12,24 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
       description: 'The display mode of the Asset.',
       settings: {
         options: [
-          { value: AssetMode.point, label: 'Point' },
-          { value: AssetMode.model, label: 'Model' },
+          { value: AssetMode.Point, label: 'Point' },
+          { value: AssetMode.Model, label: 'Model' },
         ],
       },
-      defaultValue: AssetMode.model,
+      defaultValue: AssetMode.Model,
+    })
+    .addRadio({
+      path: 'coordinatesType',
+      name: 'Coordinates type',
+      description: 'The type of coordinates to use.',
+      settings: {
+        options: [
+          { value: CoordinatesType.CartesianFixed, label: 'Cartesian Fixed' },
+          { value: CoordinatesType.CartesianInertial, label: 'Cartesian Inertial' },
+          { value: CoordinatesType.Geodetic, label: 'Geodetic' },
+        ],
+      },
+      defaultValue: CoordinatesType.Geodetic,
     })
 
     .addNumberInput({
@@ -24,14 +37,14 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
       name: 'Point size',
       description: 'The size (in pixels) of the point.',
       defaultValue: 30,
-      showIf: (config) => config.assetMode === AssetMode.point,
+      showIf: (config) => config.assetMode === AssetMode.Point,
     })
     .addColorPicker({
       path: 'pointColor',
       name: 'Point color',
       description: 'The color of the point.',
       defaultValue: 'red',
-      showIf: (config) => config.assetMode === AssetMode.point,
+      showIf: (config) => config.assetMode === AssetMode.Point,
     })
 
     .addNumberInput({
@@ -39,7 +52,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
       name: 'Scale',
       description: 'The linear scale of the model.',
       defaultValue: 1.0,
-      showIf: (config) => config.assetMode === AssetMode.model,
+      showIf: (config) => config.assetMode === AssetMode.Model,
     })
     .addNumberInput({
       path: 'modelMinimumPixelSize',
@@ -47,21 +60,21 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
       description:
         'The approximate minimum pixel size of the model regardless of zoom. When 0.0, no minimum size is enforced.',
       defaultValue: 128,
-      showIf: (config) => config.assetMode === AssetMode.model,
+      showIf: (config) => config.assetMode === AssetMode.Model,
     })
     .addNumberInput({
       path: 'modelMaximumScale',
       name: 'Maximum scale',
       description: 'The maximum scale size of the model (minimum pizel size upper limit).',
       defaultValue: 20000,
-      showIf: (config) => config.assetMode === AssetMode.model,
+      showIf: (config) => config.assetMode === AssetMode.Model,
     })
     .addNumberInput({
       path: 'modelAssetId',
       name: 'Asset ID',
       description: 'The model Cesium ion asset id.',
       defaultValue: 0,
-      showIf: (config) => config.assetMode === AssetMode.model,
+      showIf: (config) => config.assetMode === AssetMode.Model,
     })
     .addTextInput({
       path: 'modelAssetUri',
@@ -69,7 +82,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SatelliteVisualizer).setPan
       description: 'The URI of the glTF asset.',
       defaultValue:
         'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb',
-      showIf: (config) => config.assetMode === AssetMode.model,
+      showIf: (config) => config.assetMode === AssetMode.Model,
     })
 
     .addBooleanSwitch({

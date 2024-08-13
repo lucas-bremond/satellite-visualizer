@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PanelProps, DataHoverEvent, LegacyGraphHoverEvent } from '@grafana/data';
-import { AssetMode, SimpleOptions } from 'types';
+import { AssetMode, SimpleOptions, CoordinatesType } from 'types';
 import { coalesceToArray } from 'utilities';
 import { css, cx } from '@emotion/css';
 import { useStyles2 } from '@grafana/ui';
@@ -20,6 +20,7 @@ import {
   PolylineDashMaterialProperty,
   IonResource,
   Cartesian2,
+  Matrix3,
 } from 'cesium';
 
 import 'cesium/Build/Cesium/Widgets/widgets.css';
@@ -85,6 +86,11 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
     if (data.series.length === 1) {
       const dataFrame = data.series[0];
 
+      if (dataFrame.fields.length !== 8) {
+        console.error('Invalid number of fields in data frame:', dataFrame.fields.length);
+        return;
+      }
+
       let timeFieldValues = coalesceToArray(dataFrame.fields[0].values);
 
       const startTimestamp: number | null = timeFieldValues[0] ?? null;
@@ -115,11 +121,36 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
       for (let i = 0; i < dataFrame.fields[1].values.length; i++) {
         const time = JulianDate.fromDate(new Date(coalesceToArray(dataFrame.fields[0].values)[i]));
 
-        const x_ECEF = Cartesian3.fromDegrees(
-          coalesceToArray(dataFrame.fields[1].values)[i],
-          coalesceToArray(dataFrame.fields[2].values)[i],
-          coalesceToArray(dataFrame.fields[3].values)[i]
-        );
+        const DCM_ECI_ECEF = Transforms.computeFixedToIcrfMatrix(time);
+
+        let x_ECEF: Cartesian3;
+        switch (options.coordinatesType) {
+          case CoordinatesType.CartesianFixed:
+            x_ECEF = new Cartesian3(
+              coalesceToArray(dataFrame.fields[1].values)[i],
+              coalesceToArray(dataFrame.fields[2].values)[i],
+              coalesceToArray(dataFrame.fields[3].values)[i]
+            );
+            break;
+          case CoordinatesType.CartesianInertial:
+            x_ECEF = Matrix3.multiplyByVector(
+              Matrix3.transpose(DCM_ECI_ECEF, new Matrix3()),
+              new Cartesian3(
+                coalesceToArray(dataFrame.fields[1].values)[i],
+                coalesceToArray(dataFrame.fields[2].values)[i],
+                coalesceToArray(dataFrame.fields[3].values)[i]
+              ),
+              new Cartesian3()
+            );
+            break;
+          default:
+            x_ECEF = Cartesian3.fromDegrees(
+              coalesceToArray(dataFrame.fields[1].values)[i],
+              coalesceToArray(dataFrame.fields[2].values)[i],
+              coalesceToArray(dataFrame.fields[3].values)[i]
+            );
+            break;
+        }
 
         const q_B_ECI = new Quaternion(
           coalesceToArray(dataFrame.fields[4].values)[i],
@@ -130,7 +161,6 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
 
         positionProperty.addSample(time, x_ECEF);
 
-        const DCM_ECI_ECEF = Transforms.computeFixedToIcrfMatrix(time);
         const q_ECI_ECEF = Quaternion.fromRotationMatrix(DCM_ECI_ECEF);
         const q_ECEF_ECI = Quaternion.conjugate(q_ECI_ECEF, new Quaternion());
         const q_B_ECEF = Quaternion.multiply(q_ECEF_ECI, q_B_ECI, new Quaternion());
@@ -141,7 +171,7 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
       setSatellitePosition(positionProperty);
       setSatelliteOrientation(orientationProperty);
     }
-  }, [data, isLoaded]);
+  }, [data, options, isLoaded]);
 
   useEffect(() => {
     Ion.defaultAccessToken = options.accessToken;
@@ -221,10 +251,10 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
             orientation={satelliteOrientation}
             tracked={true}
           >
-            {options.assetMode === AssetMode.point && (
+            {options.assetMode === AssetMode.Point && (
               <PointGraphics pixelSize={options.pointSize} color={Color.fromCssColorString(options.pointColor)} />
             )}
-            {options.assetMode === AssetMode.model && satelliteResource && (
+            {options.assetMode === AssetMode.Model && satelliteResource && (
               <ModelGraphics
                 uri={satelliteResource}
                 scale={options.modelScale}

@@ -86,6 +86,11 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
     if (data.series.length === 1) {
       const dataFrame = data.series[0];
 
+      if (dataFrame.fields.length !== 8) {
+        console.error('Invalid number of fields in data frame:', dataFrame.fields.length);
+        return;
+      }
+
       let timeFieldValues = coalesceToArray(dataFrame.fields[0].values);
 
       const startTimestamp: number | null = timeFieldValues[0] ?? null;

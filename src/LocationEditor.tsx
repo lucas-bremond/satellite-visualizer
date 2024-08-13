@@ -5,7 +5,7 @@ import { Location } from './types';
 
 export const LocationEditor: React.FC<StandardEditorProps<Location[]>> = ({ value, onChange }) => {
   const addLocation = () => {
-    const newLocations = [...value, { name: 'Unnamed', longitude: 0.0, latitude: 0.0, altitude: 0.0}];
+    const newLocations = [...value, { name: 'Unnamed', longitude: 0.0, latitude: 0.0, altitude: 0.0 }];
     onChange(newLocations);
   };
 

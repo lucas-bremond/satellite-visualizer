@@ -34,14 +34,14 @@ export interface SimpleOptions {
 }
 
 export enum AssetMode {
-  point = 'point',
-  model = 'model',
+  Point = 'Point',
+  Model = 'Model',
 }
 
 export enum CoordinatesType {
-  cartesianFixed = 'cartesianFixed',
-  cartesianInertial = 'cartesianInertial',
-  geographic = 'geographic',
+  CartesianFixed = 'CartesianFixed',
+  CartesianInertial = 'CartesianInertial',
+  Geodetic = 'Geodetic',
 }
 
 export interface Location {

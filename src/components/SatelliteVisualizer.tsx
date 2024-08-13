@@ -119,32 +119,33 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
         const DCM_ECI_ECEF = Transforms.computeFixedToIcrfMatrix(time);
 
         let x_ECEF: Cartesian3;
-        if (options.coordinatesType === CoordinatesType.cartesianFixed) {
-          x_ECEF = new Cartesian3(
-            coalesceToArray(dataFrame.fields[1].values)[i],
-            coalesceToArray(dataFrame.fields[2].values)[i],
-            coalesceToArray(dataFrame.fields[3].values)[i]
-          );
-        }
-        else if (options.coordinatesType === CoordinatesType.cartesianInertial) {
-          x_ECEF = Matrix3.multiplyByVector(
-            Matrix3.transpose(DCM_ECI_ECEF, new Matrix3()),
-            new Cartesian3(
+        switch (options.coordinatesType) {
+          case CoordinatesType.CartesianFixed:
+            x_ECEF = new Cartesian3(
               coalesceToArray(dataFrame.fields[1].values)[i],
               coalesceToArray(dataFrame.fields[2].values)[i],
               coalesceToArray(dataFrame.fields[3].values)[i]
-            ),
-            new Cartesian3()
-          );
+            );
+            break;
+          case CoordinatesType.CartesianInertial:
+            x_ECEF = Matrix3.multiplyByVector(
+              Matrix3.transpose(DCM_ECI_ECEF, new Matrix3()),
+              new Cartesian3(
+                coalesceToArray(dataFrame.fields[1].values)[i],
+                coalesceToArray(dataFrame.fields[2].values)[i],
+                coalesceToArray(dataFrame.fields[3].values)[i]
+              ),
+              new Cartesian3()
+            );
+            break;
+          default:
+            x_ECEF = Cartesian3.fromDegrees(
+              coalesceToArray(dataFrame.fields[1].values)[i],
+              coalesceToArray(dataFrame.fields[2].values)[i],
+              coalesceToArray(dataFrame.fields[3].values)[i]
+            );
+            break;
         }
-        else {
-          x_ECEF = Cartesian3.fromDegrees(
-            coalesceToArray(dataFrame.fields[1].values)[i],
-            coalesceToArray(dataFrame.fields[2].values)[i],
-            coalesceToArray(dataFrame.fields[3].values)[i]
-          );
-        }
-
 
         const q_B_ECI = new Quaternion(
           coalesceToArray(dataFrame.fields[4].values)[i],
@@ -245,10 +246,10 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
             orientation={satelliteOrientation}
             tracked={true}
           >
-            {options.assetMode === AssetMode.point && (
+            {options.assetMode === AssetMode.Point && (
               <PointGraphics pixelSize={options.pointSize} color={Color.fromCssColorString(options.pointColor)} />
             )}
-            {options.assetMode === AssetMode.model && satelliteResource && (
+            {options.assetMode === AssetMode.Model && satelliteResource && (
               <ModelGraphics
                 uri={satelliteResource}
                 scale={options.modelScale}

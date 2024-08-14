@@ -30,15 +30,15 @@ dev: dev-image up ## Start development environment
 .PHONY: dev
 
 up: ## Start Grafana endpoint
-	docker-compose up --build --detach
+	docker compose up --build --detach
 .PHONY: up
 
 down: ## Stop Grafana endpoint
-	docker-compose down
+	docker compose down
 .PHONY: down
 
 logs: ## Show Grafana logs
-	docker-compose logs --follow
+	docker compose logs --follow
 .PHONY: logs
 
 # General //////////////////////////////////////////////////////////////////////////////////////////////////////////// #

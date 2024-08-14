@@ -87,8 +87,7 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
       const dataFrame = data.series[0];
 
       if (dataFrame.fields.length !== 8) {
-        console.error('Invalid number of fields in data frame:', dataFrame.fields.length);
-        return;
+        throw new Error(`Invalid number of fields [${dataFrame.fields.length}] in data frame.`);
       }
 
       let timeFieldValues = coalesceToArray(dataFrame.fields[0].values);
@@ -184,7 +183,7 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
           setSatelliteResource(resource);
         })
         .catch((error) => {
-          console.error('Error loading Ion Resource of Model:', error);
+          throw new Error(`Error loading Ion Resource of Model: [${error}].`);
         });
     } else if (options.modelAssetUri) {
       setSatelliteResource(options.modelAssetUri);

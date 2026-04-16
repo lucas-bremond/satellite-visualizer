@@ -53,7 +53,7 @@ const getStyles = () => {
   };
 };
 
-export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange, width, height, eventBus }) => {
+export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange, width, height, eventBus, replaceVariables }) => {
   Ion.defaultAccessToken = options.accessToken;
 
   const styles = useStyles2(getStyles);
@@ -186,12 +186,11 @@ export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange,
           throw new Error(`Error loading Ion Resource of Model: [${error}].`);
         });
     } else if (options.modelAssetUri) {
-      setSatelliteResource(options.modelAssetUri);
+      setSatelliteResource(replaceVariables(options.modelAssetUri));
     } else {
       setSatelliteResource(undefined);
     }
-  }, [options.modelAssetId, options.modelAssetUri, options.accessToken]);
-
+  }, [options.modelAssetId, options.modelAssetUri, options.accessToken, replaceVariables]);
   useEffect(() => setViewerKey((prevKey) => prevKey + 1), [options]);
 
   useEffect(() => {

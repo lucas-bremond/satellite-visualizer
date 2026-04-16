@@ -23,7 +23,7 @@ import {
   Matrix3,
 } from 'cesium';
 
-import 'cesium/Build/Cesium/Widgets/widgets.css';
+declare const CESIUM_BASE_URL: string;
 
 interface Props extends PanelProps<SimpleOptions> {}
 
@@ -65,6 +65,16 @@ export const SatelliteVisualizer: React.FC<Props> = ({
   Ion.defaultAccessToken = options.accessToken;
 
   const styles = useStyles2(getStyles);
+
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `${CESIUM_BASE_URL}Widgets/widgets.css`;
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   const [isLoaded, setLoaded] = useState<boolean>(false);
   const [viewerKey, setViewerKey] = useState<number>(0);

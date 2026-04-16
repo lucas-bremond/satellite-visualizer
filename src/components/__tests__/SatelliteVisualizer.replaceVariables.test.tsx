@@ -23,9 +23,7 @@ const baseProps = {
 } as any;
 
 describe('SatelliteVisualizer: replaceVariables', () => {
-  const replaceVariables = jest.fn((str: string) =>
-    str.replace(`\${Example_Satellite_Name}`,"my-satellite")
-  );
+  const replaceVariables = jest.fn((str: string) => str.replace(`\${Example_Satellite_Name}`, 'my-satellite'));
 
   beforeEach(() => replaceVariables.mockClear());
 
@@ -60,4 +58,3 @@ describe('SatelliteVisualizer: replaceVariables', () => {
     expect(replaceVariables).toHaveReturnedWith(resolvedUrl);
   });
 });
-

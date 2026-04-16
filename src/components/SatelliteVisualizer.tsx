@@ -53,7 +53,15 @@ const getStyles = () => {
   };
 };
 
-export const SatelliteVisualizer: React.FC<Props> = ({ options, data, timeRange, width, height, eventBus, replaceVariables }) => {
+export const SatelliteVisualizer: React.FC<Props> = ({
+  options,
+  data,
+  timeRange,
+  width,
+  height,
+  eventBus,
+  replaceVariables,
+}) => {
   Ion.defaultAccessToken = options.accessToken;
 
   const styles = useStyles2(getStyles);

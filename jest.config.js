@@ -5,4 +5,6 @@ process.env.TZ = 'UTC';
 module.exports = {
   // Jest configuration provided by Grafana scaffolding
   ...require('./.config/jest.config'),
+  // CESIUM_BASE_URL is normally injected by webpack at build time
+  globals: { CESIUM_BASE_URL: '' },
 };
